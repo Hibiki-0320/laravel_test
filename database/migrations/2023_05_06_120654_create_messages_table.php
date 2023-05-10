@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name')->nullable(false);
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('tel');
+        Schema::create('messages', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('sender')->nullable(false);
+            $table->text('content')->nullable(false);
+            $table->foreignId('apply_id')->nullable()->constrained('applies')->cascadeOnDelete();
+            $table->dateTime('sent_at');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('messages');
     }
 };
